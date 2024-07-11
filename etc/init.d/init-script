@@ -1,0 +1,18 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+STOP=10
+
+start() {
+    echo "Starting Docker Compose services..."
+    /usr/bin/docker compose -f /www/mendyfi/docker-compose.yml up -d
+    /usr/bin/docker compose -f /www/mendyfi/docker-compose.yml run --rm composer install
+    /usr/bin/docker compose -f /www/mendyfi/docker-compose.yml run --rm artisan migrate:refresh --seed
+    /usr/bin/docker compose -f /www/mendyfi/docker-compose.yml run --rm artisan key:generate
+}
+
+stop() {
+    echo "Stopping Docker Compose services..."
+    /usr/bin/docker compose -f /www/mendyfi/docker-compose.yml down
+}
+

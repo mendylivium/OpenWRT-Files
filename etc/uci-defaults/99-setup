@@ -1,0 +1,32 @@
+#!/bin/sh
+
+(sleep 30
+
+# Edit Network
+uci set network.lan.proto='dhcp'
+uci delete network.lan.ipaddr
+uci delete network.lan.netmask
+uci delete network.lan.gateway
+uci delete network.lan.dns
+uci add_list network.lan.dns='8.8.8.8'
+uci add_list network.lan.dns='8.8.4.4'
+uci commit network
+/etc/init.d/network restart
+
+# Enable Forward
+uci set firewall.@defaults[0].forward='ACCEPT'
+uci commit firewall
+/etc/init.d/firewall restart
+
+# Wait for network connectivity
+while ! ping -c 1 -W 1 google.com; do
+    sleep 5
+done
+
+# Enable and start the init script
+#/etc/init.d/init-script enable
+#/etc/init.d/init-script start
+) &
+
+exit 0
+
