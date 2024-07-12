@@ -1,4 +1,0 @@
-echo "Running Docker"
-/etc/init.d/init-script enable
-/etc/init.d/init-script start
-exit 0
