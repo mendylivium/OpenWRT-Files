@@ -24,8 +24,8 @@ while ! ping -c 1 -W 1 google.com; do
 done
 
 # Enable and start the init script
-#/etc/init.d/init-script enable
-#/etc/init.d/init-script start
+/etc/init.d/init-script enable
+/etc/init.d/init-script start
 ) &
 
 exit 0
