@@ -1,6 +1,9 @@
 #!/bin/sh
 
 (sleep 30
+#Change Machine Hostname
+uci set system.@system[0].hostname='mendyfi'
+uci commit system
 
 # Edit Network
 uci set network.lan.proto='dhcp'
@@ -11,12 +14,12 @@ uci delete network.lan.dns
 uci add_list network.lan.dns='8.8.8.8'
 uci add_list network.lan.dns='8.8.4.4'
 uci commit network
-/etc/init.d/network restart
+#/etc/init.d/network restart
 
 # Enable Forward
 uci set firewall.@defaults[0].forward='ACCEPT'
 uci commit firewall
-/etc/init.d/firewall restart
+#/etc/init.d/firewall restart
 
 # Wait for network connectivity
 while ! ping -c 1 -W 1 google.com; do
